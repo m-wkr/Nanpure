@@ -18,15 +18,24 @@
     MOV x2, #1
     SVC 0
 
-    LDRB w3, [x1]
+    LDR x1, = userCoords
 
+    //Check first character is within range
+    LDRB w4, [x1,#1]!
     
-    CMP x3, #10
-    BNE 1b
+    CMP x4, #47
+    BLE 1b
+    CMP x4, #56
+    BGE 1b
+
+    //Check second character is within range
+    LDRB w4, [x1]
+
+    CMP x4, #47
+    BLE 1b
+    CMP x4, #56
+    BGE 1b
 3:
-    //Print values (as part of testing THEN value)
-    writeToScreen userCoords, #2
-4:
     writeToScreen enterValue, #46
 
     MOV x0, #0
@@ -34,16 +43,20 @@
     MOV x2, #1
     MOV x8, #63
     SVC 0
-5:
+4:
     LDR x1, =returnBuffer
     SVC 0
 
-    LDRB w3, [x1]
-    CMP x3, #10
-    BNE 4b
-6:
-    //Apparently bash inserts a line feed after enter... 
-    writeToScreen userValue, #1
+    LDR x1, = userValue
+
+    LDRB w4, [x1]
+
+    CMP x4, #48
+    BLE 3b
+    CMP x4, #58
+    BGE 3b
+
+    //Apparently bash inserts a line feed (#10) after enter... 
 
 .endm
 
