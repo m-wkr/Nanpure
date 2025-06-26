@@ -1,66 +1,6 @@
 .global _start
 
-.include "printing.s"
-
-.macro obtainInput 
-1:  
-    //Ask for coords
-    writeToScreen enterCoords, #54
-
-    MOV x0, #0
-    LDR x1, =userCoords 
-    MOV x2, #2
-    MOV x8, #63
-    SVC 0
-2:
-    //Check if 2 len input by checking 3rd char is a line feed
-    LDR x1, =returnBuffer
-    MOV x2, #1
-    SVC 0
-
-    LDR x1, = userCoords
-
-    //Check first character is within range
-    LDRB w4, [x1,#1]!
-    
-    CMP x4, #47
-    BLE 1b
-    CMP x4, #56
-    BGE 1b
-
-    //Check second character is within range
-    LDRB w4, [x1]
-
-    CMP x4, #47
-    BLE 1b
-    CMP x4, #56
-    BGE 1b
-3:
-    writeToScreen enterValue, #46
-
-    MOV x0, #0
-    LDR x1, =userValue
-    MOV x2, #1
-    MOV x8, #63
-    SVC 0
-4:
-    LDR x1, =returnBuffer
-    SVC 0
-
-    LDR x1, = userValue
-
-    LDRB w4, [x1]
-
-    CMP x4, #48
-    BLE 3b
-    CMP x4, #58
-    BGE 3b
-
-    //Apparently bash inserts a line feed (#10) after enter... 
-
-.endm
-
-
+.include "IO.s"
 
 _start:
     writeToScreen grid, #819
