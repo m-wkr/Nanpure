@@ -1,49 +1,7 @@
 .global _start
 
 .include "IO.s"
-
-// x0-3 and 8 are reserved for syscall values
-
-.macro insertValue
-    //Immediately after obtain Input, x4 holds the ascii value of userValue
-    SUB x4,x4, #48
-
-    LDR x1, =userCoords
-    LDRB w5,[x1] //y coord
-    LDRB w6, [x1,#1] //x coord
-    SUB x5, x5, #48
-    SUB x6, x6, #48
-
-    MOV x7, #9
-
-    MUL x9, x5, x7
-    ADD x9, x9, x6 //Calculate final coord in 2D grid flattened to 1D
-
-    //Change byte grid
-    LDR x1, =grid
-    STRB w4, [x1,x9]
-
-    //update gridStr
-    LDR x1, =gridStr
-    ADD x1, x1, #97 //offset
-
-    LSL x5, x5, #1 //multiply by 2
-    ADD x5, x5, #1
-    
-    MOV x7, #38
-    MUL x5, x5, x7
-
-    ADD x6, x6, #1
-    MOV x7, #4
-    MUL x6, x6, x7
-    SUB x6, x6, #2
-
-    ADD x5, x5, x6
-
-    ADD x4, x4, #48
-
-    STRB w4, [x1,x5]
-.endm
+.include "gridManipulation.s"
 
 
 _start:
@@ -51,7 +9,9 @@ _start:
 
     obtainInput
 
-    insertValue
+    insertValueToGrid
+
+    insertValueToGridString
 
     writeToScreen gridStr, #819
 

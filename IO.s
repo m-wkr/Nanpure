@@ -54,7 +54,7 @@
     LDR x1, =returnBuffer
     SVC 0
 
-    LDR x1, = userValue
+    LDR x1, =userValue
 
     LDRB w4, [x1]
 
