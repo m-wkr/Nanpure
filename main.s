@@ -55,7 +55,7 @@ exit:
     confirmationMsg: .asciz "Would you like to insert another value onto the grid (Y/n): " //60 excp x0
 
     userCoords: .fill 2,1,0
-    userValue: .fill 100,1,0
+    userValue: .fill 1,1,0
 
     grid: .byte 0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0
 

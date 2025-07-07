@@ -9,8 +9,8 @@
 .macro insertValueToGrid
     fetchUserCoords
 
-    LDR x1, =userValue
-    SUB x1, x1, #48
+    //Store int value of user value (stored as ascii equiv) to x10
+    SUB x10, x4, #49
 
     MOV x7, #9
 
@@ -19,7 +19,7 @@
 
     //Change byte grid
     LDR x1, =grid
-    STRB w4, [x1,x9]
+    STRB w10, [x1,x9]
 
 
 .endm 
