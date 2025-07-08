@@ -18,15 +18,23 @@
     writeToScreen confirmationMsg, #60
 3:
     MOV x0, #0
-    LDR x1, =returnBuffer 
+    LDR x1, =userConfirmValue 
     MOV x2, #1
     MOV x8, #63
     SVC 0
+
+    LDR x1, =returnBuffer
+    SVC 0
+
+    LDR x1, =userConfirmValue
+
 4:
     LDRB w3, [x1]
     CMP x3, #89
 
-    SVC 0 //Read and move past return character
+    MOV x0, #1
+    MOV x8, #64
+    SVC 0
 
     BEQ 1b
 
@@ -42,6 +50,12 @@ _start:
     mainLoop
 
     solver
+
+    updateGridStrInAccordanceToGrid
+
+    writeToScreen gridStr, #819
+
+
 
 exit:
     MOV x0, #1
@@ -59,6 +73,7 @@ exit:
 
     userCoords: .fill 2,1,0
     userValue: .fill 1,1,0
+    userConfirmValue: .fill 1,1,0
 
     grid: .byte 0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0
 
