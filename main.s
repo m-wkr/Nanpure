@@ -2,6 +2,7 @@
 
 .include "IO.s"
 .include "gridManipulation.s"
+.include "solver.s"
 
 .macro mainLoop
     writeToScreen gridStr, #819
@@ -39,6 +40,8 @@
 
 _start:
     mainLoop
+
+    solver
 
 exit:
     MOV x0, #1
