@@ -43,7 +43,7 @@ checkValue:
 .endm
 
 _start:
-    //mainLoop
+    mainLoop
 
     solver
 
