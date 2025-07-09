@@ -6,7 +6,7 @@
 
 .macro mainLoop
     writeToScreen gridStr, #819
-1:
+recordValues:
     obtainInput
 
     insertValueToGrid
@@ -14,9 +14,9 @@
     insertValueToGridString
 
     writeToScreen gridStr, #819
-2:
+askForConfirm:
     writeToScreen confirmationMsg, #60
-3:
+recordConfirmation:
     MOV x0, #0
     LDR x1, =userConfirmValue 
     MOV x2, #1
@@ -28,22 +28,18 @@
 
     LDR x1, =userConfirmValue
 
-4:
+checkValue:
     LDRB w3, [x1]
     CMP x3, #89
 
-    MOV x0, #1
-    MOV x8, #64
-    SVC 0
-
-    BEQ 1b
+    BEQ recordValues
 
     CMP x3, #121
 
-    BEQ 1b
+    BEQ recordValues
 
     CMP x3, #110
-    BNE 2b
+    BNE askForConfirm
 .endm
 
 _start:
