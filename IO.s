@@ -20,7 +20,7 @@
     MOV x8, #63
     SVC 0
 2:
-    //Check if 2 len input by checking 3rd char is a line feed
+    //Absorb linefeed
     LDR x1, =returnBuffer
     MOV x2, #1
     SVC 0
@@ -51,6 +51,7 @@
     MOV x8, #63
     SVC 0
 4:
+    //Absorb linefeed
     LDR x1, =returnBuffer
     SVC 0
 
