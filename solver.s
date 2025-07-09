@@ -63,7 +63,7 @@ function:
 checkFixed:
     LDRB w4, [x19,x3]
     CMP x4, #1
-    BEQ fixedCase//else case
+    BGE fixedCase//else case
 //If w4 isn't a set value, go into forloop
     MOV x5, #0
     B forLoop
@@ -105,6 +105,7 @@ forLoop:
     STRB w12, [x21,x9]
     STRB w12, [x22,x10]
 
+    STP x1, x2, [SP,#-16]!
     STP x3, x5, [SP,#-16]!
     STP x8,x9,[SP,#-16]!
     STR x10, [SP,#-16]!
@@ -120,7 +121,7 @@ forLoop:
     LDR x10, [SP],#16
     LDP x8,x9,[SP],#16
     LDP x3,x5,[SP],#16
-    //LDP x1,x2,[SP],#16
+    LDP x1,x2,[SP],#16
 
     CMP x0, #1
     BEQ success 
@@ -135,6 +136,7 @@ forLoop:
 
 allFailed:
     LDP x1, x2, [SP],#16
+    MOV x0, #0
     B returner
 //end of for loop
 success:
@@ -142,21 +144,22 @@ success:
 //IF w4 value is fixed, then handle below
     LDP x1, x2, [SP], #16
 
-    BL incrementIndexPair
+    //BL incrementIndexPair
 
-    BL function
-    B restoreParams
+    //BL function
+    B returner
 fixedCase:
     LDP x1, x2, [SP], #16
 
     BL incrementIndexPair
+
+    BL function
+
     B returner
 
 baseCase:
     MOV x0, #1 //Return True for success
     LDP x1, x2, [SP], #16
-restoreParams:
-    //LDP x1, x2, [SP], #16
 returner:
     LDP LR, FP, [SP], #16
     RET
