@@ -11,6 +11,7 @@
 recordValues:
     obtainInput
 
+    fetchUserCoords
     insertValueToGrid
 
     insertValueToGridString
@@ -95,7 +96,6 @@ resetModCounter:
     MOV x6, #0
     ADD x5, x5, #1
     B readFileLoop
-
 
 solveForSolution:
     solver
