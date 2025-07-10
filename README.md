@@ -32,9 +32,10 @@ This process iterates until you either terminate the program prematurely, or mov
 
 ### Configuration Grid File Method
 
-Open the grid.conf file within your cloned repository, then alter & save the 9 lines in respect of the configuration you wish to solve.
-> Note: There should be no gaps or characters outside of 0-9 within the config file, including spaces. Additionally,
-> ensure that the last character on each line is the carriage return character.
+Open the grid.conf file within your cloned repository, then alter & save the top 9 lines in respect of the configuration you wish to solve.
+> Note: There should be no gaps or characters outside of 0-9 within the config file, including spaces. Additionally, *aside from the last line*,
+> ensure that the last character on each line is the carriage return character. Make sure that you do not delete the 10th line, or else the solver may
+> stop working for certain grid arrangements.
 
 <br>
 
