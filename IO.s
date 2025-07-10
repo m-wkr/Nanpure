@@ -8,6 +8,13 @@
     SVC 0
 .endm
 
+.macro gainInput FD strPtr length
+    MOV x0, \FD
+    LDR x1, =\strPtr
+    MOV x2, \length    
+    MOV x8, #63
+    SVC 0
+.endm
 
 .macro obtainInput 
 1:  

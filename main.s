@@ -3,6 +3,8 @@
 .include "IO.s"
 .include "gridManipulation.s"
 .include "solver.s"
+.include "fileHandling.s"
+
 
 .macro mainLoop
     writeToScreen gridStr, #819
@@ -43,15 +45,64 @@ checkValue:
 .endm
 
 _start:
+    writeToScreen askUserOption, #47
+
+    gainInput #0, userConfirmValue, #1
+    gainInput #0, returnBuffer, #1 //Absorb newline
+
+    LDR x1, =userConfirmValue
+    LDRB w2, [x1]
+    CMP x2, #110
+    BEQ readFile
+
+manualInputLoop:
     mainLoop
 
+    B solveForSolution
+
+readFile:
+    openGridFile
+
+
+    MOV x9, x0 //Save new FD into x9 for further reading
+
+    //Initialize counter (x5), and modular counter (x6)
+    MOV x5, #0 
+    MOV x6, #0
+readFileLoop:
+
+    CMP x5, #9
+    BEQ solveForSolution
+
+    gainInput x9, returnBuffer, #1
+
+    LDR x1, =returnBuffer
+    LDRB w4, [x1]
+
+    CMP x4, #48
+    BLE manipulateCtr
+
+    insertValueToGrid
+manipulateCtr:
+    CMP x6, #9
+    BGE resetModCounter
+
+    ADD x6, x6, #1
+    B readFileLoop
+
+
+resetModCounter:
+    MOV x6, #0
+    ADD x5, x5, #1
+    B readFileLoop
+
+
+solveForSolution:
     solver
 
     updateGridStrInAccordanceToGrid
 
     writeToScreen gridStr, #819
-
-
 
 exit:
     MOV x0, #0
@@ -60,8 +111,11 @@ exit:
 
 
 .data
-    returnBuffer: .fill 1,1,0
+    filePath: .asciz "grid.conf"
 
+    returnBuffer: .fill 1,1,48
+
+    askUserOption: .asciz "Would you like to manually input numbers(Y/n): " //47
     enterCoords: .asciz "Enter the grid coord for the number in the format yx: " //54 characters, excluding x0
     enterValue: .asciz "Enter the value at your provided coordinates: " //46 excl x0
 

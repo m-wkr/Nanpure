@@ -7,7 +7,6 @@
 .endm
 
 .macro insertValueToGrid
-    fetchUserCoords
 
     //Store int value of user value (stored as ascii equiv) to x10
     SUB x10, x4, #48
