@@ -64,6 +64,8 @@ manualInputLoop:
 readFile:
     openGridFile
 
+    CMP x0, #0
+    BLT displayFileError
 
     MOV x9, x0 //Save new FD into x9 for further reading
 
@@ -108,10 +110,16 @@ exit:
     MOV x0, #0
     MOV x8, #93
     SVC 0
+displayFileError:
+    writeToScreen missingFileMsg, #89
+
+    B exit
+
 
 
 .data
     filePath: .asciz "grid.conf"
+    missingFileMsg: .asciz "Your grid.conf file is missing, please ensure that it exists before running the program.\n" //89
 
     returnBuffer: .fill 1,1,48
 
