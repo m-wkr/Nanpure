@@ -35,7 +35,7 @@
     LDR x1, = userCoords
 
     //Check first character is within range
-    LDRB w4, [x1,#1]!
+    LDRB w4, [x1], #1
     
     CMP x4, #47
     BLE 1b
